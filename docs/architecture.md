@@ -4,37 +4,40 @@
 
 ```mermaid
 graph TD
-    Browser["🌐 Browser\nhttp://localhost:8080"]
+    subgraph Browser["🌐 浏览器"]
+        subgraph host["h5-pages 运行时  (Nuxt 4 · Vue 3)"]
+            AppVue["app.vue\n#banners · #taskList"]
+            Composable["useMicroFrontend\nnew MicroApp() → mount()"]
+            Core["@micro-fe/core\nsandbox · lifecycle"]
+            AppVue --> Composable --> Core
+        end
+    end
 
     subgraph nginx["nginx :8080"]
-        R_root["/ → h5-pages static"]
-        R_tl["  /task-list/ → micro-apps/task-list/\n  (static + CORS)"]
-        R_bn["  /banners/   → micro-apps/banners/\n  (static + CORS)"]
-        R_api[" /api/       → proxy → :3001"]
+        R_root["/ → h5-pages/.output/public/"]
+        R_tl["/task-list/ → micro-apps/task-list/"]
+        R_bn["/banners/   → micro-apps/banners/"]
+        R_api["/api/      → proxy_pass → :3001"]
     end
 
-    subgraph host["h5-pages  (Nuxt 4 SSG)"]
-        AppVue["app.vue\n#banners · #taskList"]
-        Composable["useMicroFrontend.ts\nnew MicroApp() → mount()"]
-        Core["@micro-fe/core\nsandbox · lifecycle"]
-        AppVue --> Composable --> Core
+    subgraph disk["磁盘（静态文件）"]
+        H5Out["h5-pages/.output/public/\nindex.html · _nuxt/*.js"]
+        subgraph micro["micro-apps/"]
+            TL["task-list/\nindex.html · task-list.js"]
+            BN["banners/\nindex.html · banners.js"]
+        end
     end
 
-    subgraph micro["micro-apps/  (build output)"]
-        TL["task-list/\nindex.html + task-list.js"]
-        BN["banners/\nindex.html + banners.js"]
-    end
+    API["Node.js API\n:3001"]
 
-    API["Node.js API Server\n:3001\n/api/tasks · /api/profile"]
-
-    Browser -->|"HTTP GET /"| nginx
-    R_root -->|serve static| host
-    Core -->|"fetch index.html"| R_tl
-    Core -->|"fetch index.html"| R_bn
+    Browser -->|"GET /"| nginx
+    nginx -->|"serve"| H5Out
+    Core -->|"GET /task-list/index.html\nGET /task-list/task-list.js"| nginx
+    Core -->|"GET /banners/index.html\nGET /banners/banners.js"| nginx
     R_tl --> TL
     R_bn --> BN
-    Core -->|"fetch /api/tasks"| R_api
-    R_api -->|proxy_pass| API
+    Core -->|"GET /api/tasks"| nginx
+    R_api -->|"proxy_pass"| API
 ```
 
 ## 构建管道
