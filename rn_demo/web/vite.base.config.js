@@ -16,7 +16,7 @@ export function createWebConfig(name, entryFromRnDemoRoot) {
         name: 'treat-js-as-jsx',
         enforce: 'pre',
         async transform(code, id) {
-          if (!id.match(/\.js$/)) return null;
+          if (id.includes('node_modules') || !id.endsWith('.js')) return null;
           return transformWithEsbuild(code, id, { loader: 'jsx', jsx: 'automatic' });
         },
       },
