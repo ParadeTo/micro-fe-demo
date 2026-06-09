@@ -51,7 +51,15 @@ export function createWebConfig(name, entryFromRnDemoRoot) {
       outDir,
       emptyOutDir: true,
       rollupOptions: {
-        output: { entryFileNames: `${name}.js` },
+        external: ['react', 'react-dom/client', 'react-native-web'],
+        output: {
+          entryFileNames: `${name}.js`,
+          globals: {
+            'react': 'React',
+            'react-dom/client': 'ReactDOMClient',
+            'react-native-web': 'ReactNativeWeb',
+          },
+        },
       },
     },
   };
