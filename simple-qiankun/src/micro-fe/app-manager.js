@@ -214,3 +214,5 @@ function escapeHtml(text) {
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#039;');
 }
+
+export { MicroApp };

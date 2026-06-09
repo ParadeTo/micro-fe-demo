@@ -1,0 +1,25 @@
+worker_processes 1;
+error_log /tmp/micro-fe-nginx-error.log;
+pid /tmp/micro-fe-nginx.pid;
+
+events {
+  worker_connections 64;
+}
+
+http {
+  include NGINX_MIME_TYPES;
+  default_type application/octet-stream;
+  access_log /tmp/micro-fe-nginx-access.log;
+
+  server {
+    listen 8080;
+    root MICRO_FE_ROOT/micro-apps;
+
+    location / {
+      add_header Access-Control-Allow-Origin *;
+      add_header Access-Control-Allow-Methods "GET, OPTIONS";
+      if ($request_method = OPTIONS) { return 204; }
+      try_files $uri $uri/ =404;
+    }
+  }
+}

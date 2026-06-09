@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { scopeCss } from '../src/micro-fe/css-scope.js';
-import { MicroFrontend, resolvePreparedStatus } from '../src/micro-fe/app-manager.js';
+import { MicroFrontend, MicroApp, resolvePreparedStatus } from '../src/micro-fe/app-manager.js';
 import { matchActiveRule } from '../src/micro-fe/router.js';
 import { createSandbox } from '../src/micro-fe/sandbox.js';
 
@@ -166,4 +166,29 @@ test('resolvePreparedStatus does not downgrade mounting or mounted apps', () => 
   assert.equal(resolvePreparedStatus('NOT_LOADED'), 'NOT_MOUNTED');
   assert.equal(resolvePreparedStatus('MOUNTING'), 'MOUNTING');
   assert.equal(resolvePreparedStatus('MOUNTED'), 'MOUNTED');
+});
+
+test('MicroApp is exported and initialises with correct defaults', () => {
+  assert.equal(typeof MicroApp, 'function');
+
+  // MicroApp constructor references `window`; provide a minimal stub for Node test env
+  const originalWindow = globalThis.window;
+  globalThis.window = globalThis;
+  try {
+    const app = new MicroApp({
+      name: 'test-app',
+      entry: 'http://localhost/test.html',
+      container: '#container',
+      props: { foo: 'bar' },
+    });
+    assert.equal(app.name, 'test-app');
+    assert.equal(app.status, 'NOT_LOADED');
+    assert.deepEqual(app.props, { foo: 'bar' });
+  } finally {
+    if (originalWindow === undefined) {
+      delete globalThis.window;
+    } else {
+      globalThis.window = originalWindow;
+    }
+  }
 });

@@ -6,4 +6,4 @@ export const registerMicroApps = microFrontend.registerMicroApps.bind(microFront
 export const start = microFrontend.start.bind(microFrontend);
 export const prefetchApps = microFrontend.prefetchApps.bind(microFrontend);
 
-export { MicroFrontend };
+export { MicroFrontend, MicroApp } from './app-manager.js';

@@ -1,8 +1,11 @@
 {
-  "name": "mini-qiankun-demo",
+  "name": "@micro-fe/core",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/micro-fe/index.js"
+  },
   "scripts": {
     "dev": "node scripts/dev-server.js",
     "test": "node --test"

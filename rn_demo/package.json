@@ -8,12 +8,23 @@
     "start": "expo start",
     "ios": "expo start --ios",
     "android": "expo start --android",
-    "test": "node --test"
+    "test": "node --test",
+    "build:web:task-list": "vite build --config web/task-list.config.js",
+    "build:web:banners": "vite build --config web/banners.config.js",
+    "build:web": "pnpm build:web:task-list && pnpm build:web:banners",
+    "dev:web:task-list": "vite build --config web/task-list.config.js --watch",
+    "dev:web:banners": "vite build --config web/banners.config.js --watch",
+    "dev:web": "pnpm dev:web:task-list & pnpm dev:web:banners"
   },
   "dependencies": {
     "expo": "53.0.27",
     "react": "19.0.0",
     "react-native": "0.79.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "react-dom": "19.0.0",
+    "react-native-web": "^0.20.0",
+    "vite": "^6.3.5"
+  }
 }

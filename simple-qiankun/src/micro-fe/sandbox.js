@@ -21,7 +21,15 @@ export function createSandbox(name, rawWindow = globalThis) {
       }
 
       const value = rawWindow[key];
-      return typeof value === 'function' ? value.bind(rawWindow) : value;
+      if (typeof value !== 'function') return value;
+      // .bind() drops static properties (e.g. Symbol.for, Promise.resolve).
+      // Wrap so the bound call goes to rawWindow while property lookups hit the original.
+      const bound = Function.prototype.bind.call(value, rawWindow);
+      return new Proxy(bound, {
+        get(_, prop) {
+          return Reflect.get(value, prop);
+        },
+      });
     },
 
     set(target, key, value) {
