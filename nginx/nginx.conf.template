@@ -15,7 +15,7 @@ http {
     listen 8080;
 
     # Micro-app bundles — CORS headers allow dev h5-pages (different port) to load them
-    location ~ ^/(task-list|banners)/ {
+    location ~ ^/(task-list|banners|shared)/ {
       root MICRO_FE_ROOT/micro-apps;
       add_header Access-Control-Allow-Origin *;
       add_header Access-Control-Allow-Methods "GET, OPTIONS";
