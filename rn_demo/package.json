@@ -9,9 +9,10 @@
     "ios": "expo start --ios",
     "android": "expo start --android",
     "test": "node --test",
+    "build:web:shared": "vite build --config web/shared-vendors.config.js",
     "build:web:task-list": "vite build --config web/task-list.config.js",
     "build:web:banners": "vite build --config web/banners.config.js",
-    "build:web": "pnpm build:web:task-list && pnpm build:web:banners",
+    "build:web": "pnpm build:web:shared && pnpm build:web:task-list && pnpm build:web:banners",
     "dev:web:task-list": "vite build --config web/task-list.config.js --watch",
     "dev:web:banners": "vite build --config web/banners.config.js --watch",
     "dev:web": "pnpm dev:web:task-list & pnpm dev:web:banners"
