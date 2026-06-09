@@ -14,7 +14,7 @@ export function useMicroFrontend(opts: MicroFrontendOptions) {
   let app: any = null;
 
   onMounted(async () => {
-    const { MicroApp } = await import('@micro-fe/core');
+    const { MicroApp } = await import('micro-fe-sdk');
     app = new MicroApp({
       name: opts.name,
       entry: opts.entry,
