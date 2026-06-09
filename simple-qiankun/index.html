@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Qiankun Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Micro Frontend Playground</p>
+        <h1>Mini Qiankun</h1>
+      </div>
+      <nav class="nav" aria-label="Micro apps">
+        <a href="#/sales" data-route="#/sales">Sales</a>
+        <a href="#/profile" data-route="#/profile">Profile</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <aside class="host-panel">
+        <h2>Host</h2>
+        <dl class="host-stats">
+          <div>
+            <dt>Route</dt>
+            <dd id="current-route">#/sales</dd>
+          </div>
+          <div>
+            <dt>Container</dt>
+            <dd>#micro-container</dd>
+          </div>
+          <div>
+            <dt>Mode</dt>
+            <dd>HTML Entry</dd>
+          </div>
+        </dl>
+
+        <h2>Lifecycle</h2>
+        <ol id="lifecycle-log" class="lifecycle-log" aria-live="polite"></ol>
+      </aside>
+
+      <section class="stage" aria-label="Micro app container">
+        <div id="micro-container" class="micro-container"></div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

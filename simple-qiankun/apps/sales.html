@@ -1,0 +1,137 @@
+<article class="app-shell">
+  <header class="app-header">
+    <div>
+      <p class="tag">Sales Micro App</p>
+      <h2 class="title"></h2>
+    </div>
+    <strong class="status">Mounted</strong>
+  </header>
+
+  <section class="grid">
+    <div class="metric">
+      <span>Qualified Leads</span>
+      <strong data-leads>128</strong>
+    </div>
+    <div class="metric">
+      <span>Pipeline</span>
+      <strong>$4.8M</strong>
+    </div>
+    <div class="metric">
+      <span>Sandbox Global</span>
+      <strong data-global-value>0</strong>
+    </div>
+  </section>
+
+  <button class="action" type="button" data-action>Increase leads</button>
+</article>
+
+<style>
+  .app-shell {
+    min-height: 480px;
+    padding: 28px;
+    border-radius: 8px;
+    background: #fef7ed;
+    color: #1f2937;
+  }
+
+  .app-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 26px;
+  }
+
+  .tag {
+    margin: 0 0 6px;
+    color: #9a3412;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 28px;
+  }
+
+  .status {
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: #0b6f6a;
+    color: white;
+    font-size: 12px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .metric {
+    padding: 16px;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    background: white;
+  }
+
+  .metric span {
+    display: block;
+    margin-bottom: 8px;
+    color: #7c2d12;
+    font-size: 13px;
+  }
+
+  .metric strong {
+    font-size: 24px;
+  }
+
+  .action {
+    min-height: 42px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 8px;
+    background: #b45309;
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  window.demoGlobal = 0;
+
+  window.__MICRO_APP_LIFECYCLE__ = {
+    async bootstrap(context) {
+      window.hostLog(`[${context.name}] bootstrap`);
+    },
+    async mount(context) {
+      window.demoGlobal += 1;
+      window.hostLog(`[${context.name}] mount`);
+
+      const title = context.container.querySelector('.title');
+      const leads = context.container.querySelector('[data-leads]');
+      const globalValue = context.container.querySelector('[data-global-value]');
+      const action = context.container.querySelector('[data-action]');
+
+      title.textContent = context.props.title;
+      globalValue.textContent = window.demoGlobal;
+
+      action.addEventListener('click', () => {
+        leads.textContent = String(Number(leads.textContent) + 1);
+      });
+    },
+    async unmount(context) {
+      window.hostLog(`[${context.name}] unmount`);
+    },
+  };
+</script>

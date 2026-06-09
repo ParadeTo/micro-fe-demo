@@ -1,0 +1,155 @@
+<article class="app-shell">
+  <header class="app-header">
+    <div>
+      <p class="tag">Profile Micro App</p>
+      <h2 class="title"></h2>
+    </div>
+    <strong class="status">Mounted</strong>
+  </header>
+
+  <section class="profile-layout">
+    <div class="avatar" aria-hidden="true">A</div>
+    <div>
+      <p class="role">Platform Architect</p>
+      <p class="summary">Owns integration contracts, runtime stability, and release orchestration.</p>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="metric">
+      <span>Owned Apps</span>
+      <strong>6</strong>
+    </div>
+    <div class="metric">
+      <span>Deploy Cadence</span>
+      <strong>Daily</strong>
+    </div>
+    <div class="metric">
+      <span>Sandbox Global</span>
+      <strong data-global-value>0</strong>
+    </div>
+  </section>
+</article>
+
+<style>
+  .app-shell {
+    min-height: 480px;
+    padding: 28px;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #152238;
+  }
+
+  .app-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+
+  .tag {
+    margin: 0 0 6px;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 28px;
+  }
+
+  .status {
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: #7c3aed;
+    color: white;
+    font-size: 12px;
+  }
+
+  .profile-layout {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .avatar {
+    display: grid;
+    width: 72px;
+    height: 72px;
+    place-items: center;
+    border-radius: 50%;
+    background: #7c3aed;
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+  }
+
+  .role {
+    margin-bottom: 4px;
+    color: #1e3a8a;
+    font-weight: 800;
+  }
+
+  .summary {
+    max-width: 460px;
+    margin-bottom: 0;
+    color: #334155;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .metric {
+    padding: 16px;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    background: white;
+  }
+
+  .metric span {
+    display: block;
+    margin-bottom: 8px;
+    color: #1d4ed8;
+    font-size: 13px;
+  }
+
+  .metric strong {
+    font-size: 24px;
+  }
+
+  @media (max-width: 760px) {
+    .grid,
+    .profile-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  window.demoGlobal = 100;
+
+  window.__MICRO_APP_LIFECYCLE__ = {
+    async bootstrap(context) {
+      window.hostLog(`[${context.name}] bootstrap`);
+    },
+    async mount(context) {
+      window.demoGlobal += 10;
+      window.hostLog(`[${context.name}] mount`);
+
+      context.container.querySelector('.title').textContent = context.props.user;
+      context.container.querySelector('[data-global-value]').textContent = window.demoGlobal;
+    },
+    async unmount(context) {
+      window.hostLog(`[${context.name}] unmount`);
+    },
+  };
+</script>

@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "workspaces": [
+    "simple-qiankun",
+    "h5-pages",
+    "rn_demo",
+    "server"
+  ]
+}
