@@ -1,13 +1,17 @@
 {
-  "name": "@micro-fe/core",
+  "name": "micro-fe-sdk",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/micro-fe/index.js"
+    ".": "./src/micro-fe/index.js",
+    "./nuxt": "./src/nuxt/index.js"
   },
   "scripts": {
     "dev": "node scripts/dev-server.js",
     "test": "node --test"
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.17.5"
   }
 }

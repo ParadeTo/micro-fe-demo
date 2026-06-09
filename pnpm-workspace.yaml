@@ -1,5 +1,5 @@
 packages:
-  - "simple-qiankun"
+  - "micro-fe-sdk"
   - "h5-pages"
   - "rn_demo"
   - "server"
