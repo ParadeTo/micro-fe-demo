@@ -1,5 +1,8 @@
 export function createSandbox(name, rawWindow = globalThis) {
   const sandboxWindow = Object.create(null);
+  // Polyfill process for bundles (e.g. react-native-web) that reference it at
+  // runtime even after build-time replacement of process.env.NODE_ENV.
+  sandboxWindow.process = rawWindow.process ?? { env: { NODE_ENV: 'production' } };
   let proxy;
 
   proxy = new Proxy(sandboxWindow, {

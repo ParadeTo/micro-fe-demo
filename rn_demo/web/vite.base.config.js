@@ -35,6 +35,13 @@ export function createWebConfig(name, entryFromRnDemoRoot) {
     resolve: {
       alias: { 'react-native': 'react-native-web' },
     },
+    define: {
+      // react-native-web references process.env.NODE_ENV; replace at build time
+      // so no bare `process` access survives into the IIFE bundle.
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env': JSON.stringify({ NODE_ENV: 'production' }),
+      'process': JSON.stringify({ env: { NODE_ENV: 'production' } }),
+    },
     build: {
       lib: {
         entry: resolve(__dirname, '..', entryFromRnDemoRoot),

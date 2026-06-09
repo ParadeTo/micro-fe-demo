@@ -13,13 +13,27 @@ http {
 
   server {
     listen 8080;
-    root MICRO_FE_ROOT/micro-apps;
 
-    location / {
+    # Micro-app bundles — CORS headers allow dev h5-pages (different port) to load them
+    location ~ ^/(task-list|banners)/ {
+      root MICRO_FE_ROOT/micro-apps;
       add_header Access-Control-Allow-Origin *;
       add_header Access-Control-Allow-Methods "GET, OPTIONS";
       if ($request_method = OPTIONS) { return 204; }
-      try_files $uri $uri/ =404;
+      try_files $uri =404;
+    }
+
+    # API proxy → Node server
+    location /api/ {
+      proxy_pass http://127.0.0.1:MICRO_FE_API_PORT/api/;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # h5-pages static site — SPA fallback so client-side routing works
+    root MICRO_FE_ROOT/h5-pages/.output/public;
+    location / {
+      try_files $uri $uri/ /index.html;
     }
   }
 }
